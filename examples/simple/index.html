@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>newscast.js</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <style>
+        #sender-display { display: none; }
+        #receiver-display { display: none; }
+        #controls { display: none; }
+        #cast-stop { display: none; }
+    </style>
+</head>
+<body>
+    <h1>Newscast.js simple demo</h1>
+
+    <div id="sender-display">
+        I'm the sender!
+    </div>
+
+    <div id="receiver-display">
+        I'm the receiver!
+    </div>
+
+    <div id="controls">
+        <button id="cast-start">Start casting</button>
+        <button id="cast-stop">Stop casting</button>
+    </div>
+
+    <script type="text/javascript" src="../../src/newcast.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script>
+        var $senderDisplay = $('#sender-display');
+        var $receiverDisplay = $('#receiver-display');
+        var $controls = $('#controls');
+        var $castStart = $('#cast-start');
+        var $castStop = $('#cast-stop');
+
+        var onCastReceiverCreated = function(receiver) {
+            $receiverDisplay.show(); 
+        };
+
+        var onCastSenderCreated = function(sender) {};
+
+        var onCastSenderReady = function() {
+            $controls.show();
+        };
+
+        var onCastSenderStarted = function() {
+            $senderDisplay.show();
+            $castStart.hide();
+            $castStop.show();
+        };
+
+        var onCastSenderStopped = function() {
+            $senderDisplay.hide();
+            $castStart.show();
+            $castStop.hide();
+        };
+
+        new Newscast.Newscast({
+            'namespace': 'urn:x-cast:nprviz.newcast',
+            'appId': 'E07BAAC9',
+            'onReceiverCreated': onCastReceiverCreated,
+            'onSenderCreated': onCastSenderCreated,
+            'onSenderReady': onCastSenderReady,
+            'onSenderStarted': onCastSenderStarted,
+            'onSenderStopped': onCastSenderStopped,
+            'debug': true
+        });
+    </script>
+</body>
+</html>

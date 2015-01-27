@@ -4,8 +4,6 @@
 
 A library to radically simplify Chromecast web app development.
 
-### [&rsaquo; Read the documentation](http://newscastjs.readthedocs/)
-
 ## Development tasks
 
 Grunt configuration is included for running common development tasks.
