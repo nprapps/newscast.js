@@ -178,6 +178,7 @@
                 }
             } else if (e === chrome.cast.ReceiverAvailability.UNAVAILABLE) {
                 _log('Receiver not available');
+                _log(e, true);
             }
         };
 

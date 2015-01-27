@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 
     <style>
+        body { background-color: white; margin: 40px; }
         #sender-display { display: none; }
         #receiver-display { display: none; }
         #controls { display: none; }
@@ -39,11 +40,27 @@
         var $castStart = $('#cast-start');
         var $castStop = $('#cast-stop');
 
+        var sender = null;
+
+        $castStart.on('click', function() {
+            sender.startCasting(); 
+
+            return false;
+        });
+
+        $castStop.on('click', function() {
+            sender.stopCasting();
+
+            return false;
+        });
+
         var onCastReceiverCreated = function(receiver) {
             $receiverDisplay.show(); 
         };
 
-        var onCastSenderCreated = function(sender) {};
+        var onCastSenderCreated = function(newSender) {
+            sender = newSender;
+        };
 
         var onCastSenderReady = function() {
             $controls.show();
@@ -62,7 +79,7 @@
         };
 
         new Newscast.Newscast({
-            'namespace': 'urn:x-cast:nprviz.newcast',
+            'namespace': 'urn:x-cast:newscast',
             'appId': 'E07BAAC9',
             'onReceiverCreated': onCastReceiverCreated,
             'onSenderCreated': onCastSenderCreated,
