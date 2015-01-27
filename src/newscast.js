@@ -176,7 +176,7 @@
                 if (config['onSenderReady']) {
                     config['onSenderReady']();
                 }
-            } else if (e === chrome.cast.ReceiverAvaibility.UNAVAILABLE) {
+            } else if (e === chrome.cast.ReceiverAvailability.UNAVAILABLE) {
                 _log('Receiver not available');
             }
         };
