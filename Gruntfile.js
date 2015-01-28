@@ -36,7 +36,7 @@ module.exports = function(grunt) {
     },
     jsdoc: {
       dist: {
-        src: "<%= jshint.lib.src %>",
+        src: ["<%= jshint.lib.src %>", "README.md"],
         options: {
           destination: "api"
         }

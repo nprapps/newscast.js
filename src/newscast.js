@@ -1,5 +1,7 @@
-/*
- * A lightweight Chromecasting library.
+/**
+ * Newscast: simple Chromecast apps.
+ *
+ * @namespace Newscast
  */
 
 /* global module */
@@ -22,6 +24,7 @@
     /**
      * The Chromecast receiver that runs on the device.
      *
+     * @memberof Newscast
      * @class Receiver
      * @param {Object} config Configuration object
      * @param {String} config.namespace Chromecast namespace for this application.
@@ -138,8 +141,9 @@
     };
 
     /**
-     * Sender
+     * The Chromecast app Sender that runs in the user's browser. 
      *
+     * @memberof Newscast
      * @class Sender
      * @param {Object} config Configuration object
      * @param {String} config.namespace Chromecast namespace for this application.
@@ -409,8 +413,9 @@
     };
 
     /**
-     * Simple bidirectional app all on one page.
+     * Creates a simple Chromecast app all on one page with full bi-directional communication.
      *
+     * @memberof Newscast
      * @class Newscast
      * @param {Object} config Configuration object
      * @param {String} config.namespace Chromecast namespace for this application.
