@@ -4,6 +4,8 @@ Newscast is library to radically simplify Chromecast web app development.
 
 * See a [simple example](http://apps.npr.org/newscast/examples/simple/). (You'll need a Chromecast, of course.)
 * See a [more complex example](http://apps.npr.org/newscast/examples/messaging/) with bi-directional communcation.
+* Visit the [Github repository](https://github.com/nprapps/newscast.js).
+* File an [bug report](https://github.com/nprapps/newscast.js/issues).
 * Read the [complete documentation](http://apps.npr.org/newscast/api/).
 
 ## Creating a Newscast
