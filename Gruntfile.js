@@ -34,6 +34,14 @@ module.exports = function(grunt) {
         src: "src/**/*.js",
       }
     },
+    jsdoc: {
+      dist: {
+        src: "<%= jshint.lib.src %>",
+        options: {
+          destination: "api"
+        }
+      }
+    },
     concat: {
         options: {
             banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
@@ -70,6 +78,7 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-jsdoc");
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
 

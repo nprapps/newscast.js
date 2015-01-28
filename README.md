@@ -6,6 +6,8 @@ A library to radically simplify Chromecast web app development.
 
 See a simple [working example](http://apps.npr.org/newscast/examples/simple/). (You'll need a Chromecast, of course.)
 
+Rad the A[API documentation](http://apps.npr.org/newscast/api/).
+
 ## Development tasks
 
 Grunt configuration is included for running common development tasks.

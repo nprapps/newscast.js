@@ -1,5 +1,31 @@
-/*! newscast.js - v0.1.0 - 2015-01-28 */
-/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: newscast.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: newscast.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*
  * Lightweight Chromecasting library.
  */
 
@@ -20,8 +46,11 @@
     var MESSAGE_DELIMITER = 'NEWSCAST';
     var MESSAGE_REGEX = new RegExp('(\\S+)' + MESSAGE_DELIMITER + '(.+)$');
   
-    /*
-     * Receiver
+    /**
+     * The Chromecast receiver that runs on the device.
+     *
+     * @class Receiver
+     * @param {Object} config Configuration object
      */
     var Receiver = function(config) {
         var _config = config;
@@ -71,14 +100,19 @@
          */
         var _fire = function(messageType, message) {
             if (messageType in _messageHandlers) {
-                for (var i = 0; i < _messageHandlers[messageType].length; i++) {
+                for (var i = 0; i &lt; _messageHandlers[messageType].length; i++) {
                     _messageHandlers[messageType][i](message);
                 }
             }
         };
 
-        /*
+        /**
          * Register a new message handler callback.
+         *
+         * @memberof Receiver
+         * @method onMessage
+         * @param {String} messageType Name of message type to listen for.
+         * @param {Receiver~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
         var onMessage = function(messageType, callback) {
             if (!(messageType in _messageHandlers)) {
@@ -88,8 +122,18 @@
             _messageHandlers[messageType].push(callback);
         };
 
-        /*
+        /**
+         * @callback Parent~onMessageCallback
+         * @param {String} message The message data.
+         */
+
+        /**
          * Send a message to the Sender.
+         *
+         * @memberof Receiver
+         * @method sendMessage
+         * @param {String} messageType Name of the message type to send.
+         * @param {String} message Message data to send.
          */
         var sendMessage = function(messageType, message) {
             message = messageType + MESSAGE_DELIMITER + message;
@@ -118,8 +162,11 @@
         };
     };
 
-    /*
+    /**
      * Sender
+     *
+     * @class Sender
+     * @param {Object} config Configuration object
      */
     var Sender = function(config) {
         var _config = config;
@@ -198,8 +245,12 @@
             _log(e, true);
         };
 
-        /*
-         * Start casting.
+        /**
+         * Request to start a Chromecasting session. Will cause the
+         * browser plugin device selection dialog to open.
+         *
+         * @memberof Sender
+         * @method startCasting
          */
         var startCasting = function() {
             _log('Starting cast');
@@ -230,8 +281,11 @@
             _log(e, true);
         };
 
-        /*
-         * Stop casting.
+        /**
+         * Stop casting an ongoing Chromecast session.
+         *
+         * @memberof Sender
+         * @method stopCasting
          */
         var stopCasting = function() {
             _log('Stopping cast');
@@ -277,14 +331,19 @@
          */
         var _fire = function(messageType, message) {
             if (messageType in _messageHandlers) {
-                for (var i = 0; i < _messageHandlers[messageType].length; i++) {
+                for (var i = 0; i &lt; _messageHandlers[messageType].length; i++) {
                     _messageHandlers[messageType][i](message);
                 }
             }
         };
 
-        /*
+        /**
          * Register a new message handler callback.
+         *
+         * @memberof Sender 
+         * @method onMessage
+         * @param {String} messageType Name of message type to listen for.
+         * @param {Sender~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
         var onMessage = function(messageType, callback) {
             if (!(messageType in _messageHandlers)) {
@@ -294,9 +353,18 @@
             _messageHandlers[messageType].push(callback);
         };
 
+        /**
+         * @callback Sender~onMessageCallback
+         * @param {String} message The message data.
+         */
 
-        /*
-         * Send a message to the receiver.
+        /**
+         * Send a message to the Receiver.
+         *
+         * @memberof Sender
+         * @method sendMessage
+         * @param {String} messageType Name of the message type to send.
+         * @param {String} message Message data to send.
          */
         var sendMessage = function(messageType, message) {
             message = messageType + MESSAGE_DELIMITER + message;
@@ -413,3 +481,26 @@
         'Newscast': Newscast
     };
 });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Receiver.html">Receiver</a></li><li><a href="Sender.html">Sender</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Wed Jan 28 2015 08:39:27 GMT-0600 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

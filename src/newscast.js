@@ -1,5 +1,5 @@
 /*
- * Lightweight Chromecasting library.
+ * A lightweight Chromecasting library.
  */
 
 /* global module */
@@ -19,8 +19,11 @@
     var MESSAGE_DELIMITER = 'NEWSCAST';
     var MESSAGE_REGEX = new RegExp('(\\S+)' + MESSAGE_DELIMITER + '(.+)$');
   
-    /*
-     * Receiver
+    /**
+     * The Chromecast receiver that runs on the device.
+     *
+     * @class Receiver
+     * @param {Object} config Configuration object
      */
     var Receiver = function(config) {
         var _config = config;
@@ -76,8 +79,13 @@
             }
         };
 
-        /*
+        /**
          * Register a new message handler callback.
+         *
+         * @memberof Receiver
+         * @method onMessage
+         * @param {String} messageType Name of message type to listen for.
+         * @param {Receiver~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
         var onMessage = function(messageType, callback) {
             if (!(messageType in _messageHandlers)) {
@@ -87,8 +95,18 @@
             _messageHandlers[messageType].push(callback);
         };
 
-        /*
+        /**
+         * @callback Parent~onMessageCallback
+         * @param {String} message The message data.
+         */
+
+        /**
          * Send a message to the Sender.
+         *
+         * @memberof Receiver
+         * @method sendMessage
+         * @param {String} messageType Name of the message type to send.
+         * @param {String} message Message data to send.
          */
         var sendMessage = function(messageType, message) {
             message = messageType + MESSAGE_DELIMITER + message;
@@ -117,8 +135,11 @@
         };
     };
 
-    /*
+    /**
      * Sender
+     *
+     * @class Sender
+     * @param {Object} config Configuration object
      */
     var Sender = function(config) {
         var _config = config;
@@ -197,8 +218,12 @@
             _log(e, true);
         };
 
-        /*
-         * Start casting.
+        /**
+         * Request to start a Chromecasting session. Will cause the
+         * browser plugin device selection dialog to open.
+         *
+         * @memberof Sender
+         * @method startCasting
          */
         var startCasting = function() {
             _log('Starting cast');
@@ -229,8 +254,11 @@
             _log(e, true);
         };
 
-        /*
-         * Stop casting.
+        /**
+         * Stop casting an ongoing Chromecast session.
+         *
+         * @memberof Sender
+         * @method stopCasting
          */
         var stopCasting = function() {
             _log('Stopping cast');
@@ -282,8 +310,13 @@
             }
         };
 
-        /*
+        /**
          * Register a new message handler callback.
+         *
+         * @memberof Sender 
+         * @method onMessage
+         * @param {String} messageType Name of message type to listen for.
+         * @param {Sender~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
         var onMessage = function(messageType, callback) {
             if (!(messageType in _messageHandlers)) {
@@ -293,9 +326,18 @@
             _messageHandlers[messageType].push(callback);
         };
 
+        /**
+         * @callback Sender~onMessageCallback
+         * @param {String} message The message data.
+         */
 
-        /*
-         * Send a message to the receiver.
+        /**
+         * Send a message to the Receiver.
+         *
+         * @memberof Sender
+         * @method sendMessage
+         * @param {String} messageType Name of the message type to send.
+         * @param {String} message Message data to send.
          */
         var sendMessage = function(messageType, message) {
             message = messageType + MESSAGE_DELIMITER + message;
@@ -353,7 +395,7 @@
         var _config = config;
 
         if (!config.hasOwnProperty('isReceiver')) {
-            config['isReceiver'] = (window.location.search.indexOf('chromecast') >= 0);
+            config['isReceiver'] = (window.location.search.indexOf('newscast-receiver=true') >= 0);
         }
 
         /*
