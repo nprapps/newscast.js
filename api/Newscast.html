@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Receiver</title>
+    <title>JSDoc: Class: Newscast</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Class: Receiver</h1>
+    <h1 class="page-title">Class: Newscast</h1>
     
     
 
@@ -27,7 +27,7 @@
     
 <header>
     <h2>
-    Receiver
+    Newscast
     </h2>
     
 </header>  
@@ -39,7 +39,7 @@
     
         
 <dt>
-    <h4 class="name" id="Receiver"><span class="type-signature"></span>new Receiver<span class="signature">(config)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Newscast"><span class="type-signature"></span>new Newscast<span class="signature">(config)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -47,7 +47,7 @@
     
     
     <div class="description">
-        The Chromecast receiver that runs on the device.
+        Simple bidirectional app all on one page.
     </div>
     
 
@@ -146,6 +146,144 @@
 	
         <tr>
             
+                <td class="name"><code>appId</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Chromecast application identifier.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>onSenderCreated</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Newscast.html#onSenderCreatedCallback">Newscast~onSenderCreatedCallback</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Callback to be fired when a Sender instance is created.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>onReceiverCreated</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Newscast.html#onReceiverCreatedCallback">Newscast~onReceiverCreatedCallback</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Callback to be fired when a Receiver instance is created.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>onSenderReady</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Sender.html#onSenderReadyCallback">Sender~onSenderReadyCallback</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Callback to be fired when a device is available to be cast to.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>onSenderStarted</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Sender.html#onSenderStartedCallback">Sender~onSenderStartedCallback</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Callback to be fired when casting has begun.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>onSenderStopped</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Sender.html#onSenderStoppedCallback">Sender~onSenderStoppedCallback</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Callback to be fired when casting has ceased.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
                 <td class="name"><code>debug</code></td>
             
             
@@ -199,7 +337,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="newscast.js.html">newscast.js</a>, <a href="newscast.js.html#line22">line 22</a>
+        <a href="newscast.js.html">newscast.js</a>, <a href="newscast.js.html#line411">line 411</a>
     </li></ul></dd>
     
     
@@ -240,21 +378,19 @@
     
     
     
-        <h3 class="subsection-title">Methods</h3>
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
         
         <dl>
-            
+                
 <dt>
-    <h4 class="name" id="onMessage"><span class="type-signature">&lt;static> </span>onMessage<span class="signature">(messageType, callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onReceiverCreatedCallback"><span class="type-signature"></span>onReceiverCreatedCallback<span class="signature">(receiver)</span><span class="type-signature"></span></h4>
     
     
 </dt>
 <dd>
     
-    
-    <div class="description">
-        Register a new message handler callback.
-    </div>
     
 
     
@@ -287,13 +423,13 @@
 	
         <tr>
             
-                <td class="name"><code>messageType</code></td>
+                <td class="name"><code>receiver</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><a href="Receiver.html">Receiver</a></span>
 
 
             
@@ -303,30 +439,7 @@
             
             
             
-            <td class="description last">Name of message type to listen for.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Receiver~onMessageCallback</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The callback to invoke when the given message type is received.</td>
+            <td class="description last">A Receiver instance.</td>
         </tr>
 	
 	
@@ -357,7 +470,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="newscast.js.html">newscast.js</a>, <a href="newscast.js.html#line84">line 84</a>
+        <a href="newscast.js.html">newscast.js</a>, <a href="newscast.js.html#line485">line 485</a>
     </li></ul></dd>
     
     
@@ -382,19 +495,15 @@
     
 </dd>
 
-        
             
+                
 <dt>
-    <h4 class="name" id="sendMessage"><span class="type-signature">&lt;static> </span>sendMessage<span class="signature">(messageType, message)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onSenderCreatedCallback"><span class="type-signature"></span>onSenderCreatedCallback<span class="signature">(sender)</span><span class="type-signature"></span></h4>
     
     
 </dt>
 <dd>
     
-    
-    <div class="description">
-        Send a message to the Sender.
-    </div>
     
 
     
@@ -427,13 +536,13 @@
 	
         <tr>
             
-                <td class="name"><code>messageType</code></td>
+                <td class="name"><code>sender</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><a href="Sender.html">Sender</a></span>
 
 
             
@@ -443,30 +552,7 @@
             
             
             
-            <td class="description last">Name of the message type to send.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>message</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Message data to send.</td>
+            <td class="description last">A Sender instance.</td>
         </tr>
 	
 	
@@ -497,7 +583,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="newscast.js.html">newscast.js</a>, <a href="newscast.js.html#line102">line 102</a>
+        <a href="newscast.js.html">newscast.js</a>, <a href="newscast.js.html#line483">line 483</a>
     </li></ul></dd>
     
     
@@ -522,9 +608,7 @@
     
 </dd>
 
-        </dl>
-    
-    
+            </dl>
     
     
     
@@ -544,7 +628,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Wed Jan 28 2015 08:59:49 GMT-0600 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Wed Jan 28 2015 08:59:48 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

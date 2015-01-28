@@ -24,6 +24,8 @@
      *
      * @class Receiver
      * @param {Object} config Configuration object
+     * @param {String} config.namespace Chromecast namespace for this application.
+     * @param {Boolean} config.debug If true, debug information will be logged to the console.
      */
     var Receiver = function(config) {
         var _config = config;
@@ -140,6 +142,12 @@
      *
      * @class Sender
      * @param {Object} config Configuration object
+     * @param {String} config.namespace Chromecast namespace for this application.
+     * @param {String} config.appId Chromecast application identifier.
+     * @param {Sender~onSenderReadyCallback} config.onSenderReady Callback to be fired when a device is available to be cast to.
+     * @param {Sender~onSenderStartedCallback} config.onSenderStarted Callback to be fired when casting has begun.
+     * @param {Sender~onSenderStoppedCallback} config.onSenderStopped Callback to be fired when casting has ceased.
+     * @param {Boolean} config.debug If true, debug information will be logged to the console.
      */
     var Sender = function(config) {
         var _config = config;
@@ -203,6 +211,10 @@
             }
         };
 
+        /**
+         * @callback Sender~onSenderReadyCallback
+         */
+
         /*
          * Environment successfully initialized.
          */
@@ -246,6 +258,10 @@
             }
         };
 
+        /**
+         * @callback Sender~onSenderStartedCallback
+         */
+
         /*
          * Casting session failed to start.
          */
@@ -276,6 +292,10 @@
                 config['onSenderStopped']();
             }
         };
+
+        /**
+         * @callback Sender~onSenderStoppedCallback
+         */
 
         /*
          * Session could not be stopped.
@@ -388,8 +408,20 @@
         };
     };
 
-    /*
+    /**
      * Simple bidirectional app all on one page.
+     *
+     * @class Newscast
+     * @param {Object} config Configuration object
+     * @param {String} config.namespace Chromecast namespace for this application.
+     * @param {String} config.appId Chromecast application identifier.
+     * @param {Newscast~onSenderCreatedCallback} config.onSenderCreated Callback to be fired when a Sender instance is created.
+     * @param {Newscast~onReceiverCreatedCallback} config.onReceiverCreated Callback to be fired when a Receiver instance is created.
+     * @param {Sender~onSenderReadyCallback} config.onSenderReady Callback to be fired when a device is available to be cast to.
+     * @param {Sender~onSenderStartedCallback} config.onSenderStarted Callback to be fired when casting has begun.
+     * @param {Sender~onSenderStoppedCallback} config.onSenderStopped Callback to be fired when casting has ceased.
+     * @param {Boolean} config.debug If true, debug information will be logged to the console.
+
      */
     var Newscast = function(config) {
         var _config = config;
@@ -447,6 +479,16 @@
             document.body.appendChild(script);
         }
     };
+
+    /**
+     * @callback Newscast~onSenderCreatedCallback
+     * @param {Sender} sender A Sender instance.
+     */
+
+    /**
+     * @callback Newscast~onReceiverCreatedCallback
+     * @param {Receiver} receiver A Receiver instance.
+     */
 
     return {
         'Receiver': Receiver,
