@@ -420,8 +420,8 @@
      * @param {Object} config Configuration object
      * @param {String} config.namespace Chromecast namespace for this application.
      * @param {String} config.appId Chromecast application identifier.
-     * @param {Newscast~onSenderCreatedCallback} config.onSenderCreated Callback to be fired when a Sender instance is created.
-     * @param {Newscast~onReceiverCreatedCallback} config.onReceiverCreated Callback to be fired when a Receiver instance is created.
+     * @param {Newscast.Newscast~onSenderCreatedCallback} config.onSenderCreated Callback to be fired when a Sender instance is created.
+     * @param {Newscast.Newscast~onReceiverCreatedCallback} config.onReceiverCreated Callback to be fired when a Receiver instance is created.
      * @param {Sender~onSenderReadyCallback} config.onSenderReady Callback to be fired when a device is available to be cast to.
      * @param {Sender~onSenderStartedCallback} config.onSenderStarted Callback to be fired when casting has begun.
      * @param {Sender~onSenderStoppedCallback} config.onSenderStopped Callback to be fired when casting has ceased.
@@ -447,6 +447,16 @@
                 console.log(message);
             }
         };
+
+        /**
+         * @callback Newscast.Newscast~onSenderCreatedCallback
+         * @param {Sender} sender A Sender instance.
+         */
+
+        /**
+         * @callback Newscast.Newscast~onReceiverCreatedCallback
+         * @param {Receiver} receiver A Receiver instance.
+         */
 
         var script =  document.createElement('script');
         script.async = false;
@@ -484,16 +494,6 @@
             document.body.appendChild(script);
         }
     };
-
-    /**
-     * @callback Newscast~onSenderCreatedCallback
-     * @param {Sender} sender A Sender instance.
-     */
-
-    /**
-     * @callback Newscast~onReceiverCreatedCallback
-     * @param {Receiver} receiver A Receiver instance.
-     */
 
     return {
         'Receiver': Receiver,
