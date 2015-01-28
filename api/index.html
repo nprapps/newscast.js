@@ -43,12 +43,67 @@
 
 
     <section>
-        <article><h1>Newscast.js</h1><h2>About</h2><p>A library to radically simplify Chromecast web app development.</p>
+        <article><h2>Newscast.js</h2><p>Newscast is library to radically simplify Chromecast web app development.</p>
 <ul>
 <li>See a <a href="http://apps.npr.org/newscast/examples/simple/">simple example</a>. (You'll need a Chromecast, of course.)</li>
-<li>See a <a href="http://apps.npr.org/newscast/examples/simple/">more complex example</a> with bi-directional communcation.</li>
+<li>See a <a href="http://apps.npr.org/newscast/examples/messaging/">more complex example</a> with bi-directional communcation.</li>
 <li>Read the <a href="http://apps.npr.org/newscast/api/">API documentation</a>.</li>
 </ul>
+<h2>Creating a Newscast</h2><p>Newscast is optimized for a very simple use-case:</p>
+<ul>
+<li>One sender device and one receiver device</li>
+<li>A single-page that will function as both sender and receiver</li>
+</ul>
+<p>For this case, you only need the following code to create a Chromecast-ready Javascript app:</p>
+<pre class="prettyprint source lang-javascript"><code>new Newscast.Newscast({
+    'namespace': 'urn:x-cast:newscast.simple',
+    'appId': 'E07BAAC9',
+    'debug': true,
+    'onReceiverCreated': onCastReceiverCreated,
+    'onSenderCreated': onCastSenderCreated,
+    'onSenderReady': onCastSenderReady,
+    'onSenderStarted': onCastSenderStarted,
+    'onSenderStopped': onCastSenderStopped
+});</code></pre><p>There are three pieces of configuration:</p>
+<ul>
+<li><code>namespace</code>: The user-defined communications namespace for your Chromecast app. This should start with <code>urn:x-cast:</code> and can then be whatever you want.</li>
+<li><code>appId</code>: The Google-provided unique application ID for your Chromecast app. You get this from the <a href="https://cast.google.com/publish/#/overview">Google Cast SDK Developer Console</a> when you register your application.</li>
+<li><code>debug</code>: If <code>true</code> then debug data will be printed to the Javascript console.</li>
+</ul>
+<p>There are also five callbacks you will need to implement:</p>
+<ul>
+<li><code>onReceiverCreated</code> is called when your page is loaded as the receiver and passed a new <code>Receiver</code> object. In this callback you should hide any sender-related UI elements and perform any receiver-specific setup.</li>
+<li><code>onSenderCreated</code> is called when your page is loaded as the sender and passed a new <code>Sender</code> object. In this callback you should hide any receiver-related UI elements and perform any sender-specific setup.</li>
+<li><code>onSenderReady</code> is called when a Chromecast device is discovered and available for casting. In this callback you should display a &quot;start casting&quot; button and any instructions for your users.</li>
+<li><code>onSenderStarted</code> is called when casting has begun. Here you should hide the &quot;start casting&quot; button and show a &quot;stop casting&quot; button.</li>
+<li><code>onSenderStopped</code> is called when casting has ended. Here you should hide the &quot;stop casting&quot; button and show a &quot;start casting&quot; button.</li>
+</ul>
+<p>When the user clicks the&quot;start casting&quot; button, call <code>`Sender.startCasting()</code>. To stop the cast, call <code>Sender.stopCasting()</code>.</p>
+<p>That's it.</p>
+<p>See the <a href="http://apps.npr.org/newscast/examples/simple/">simple example</a> to see this in action.</p>
+<h2>Registering your application</h2><p>Before you can test your application, you'll need to be registered as Chromecast developer with Google (this costs $5), <a href="https://cast.google.com/publish/#/devices">register your Chromecast device</a> and <a href="https://cast.google.com/publish/#/applications">register your app</a>. Google's documentation for this process is <a href="https://developers.google.com/cast/docs/registration">here</a>.</p>
+<p>Use the following configuration when you register your app:</p>
+<ul>
+<li><code>Name</code>: whatever you want</li>
+<li><code>Type</code>: &quot;Custom Receiver&quot;</li>
+<li><code>URL</code>: &quot;https://path.to.my/app.html?newscast-receiver=true&quot;</li>
+<li><code>Sender Details / Chrome</code>: &quot;https://pay.to.my/app.html&quot;</li>
+</ul>
+<p>The <code>newscast-receiver=true</code> is part of the magic that makes Newscast work.</p>
+<p><strong>Note:</strong> SSL (https://) is required for published applications, but you can test without it.</p>
+<h3>Communicating between sender and receiver</h3><p>Probably the most interesting Chromecast feature is the ability to set up bi-directional communication between the sender and receiver. Newscast sets up this communication pipeline entirely automatically. All you need to do is register the types of messages you'll be sending and receiving and attach callbacks to handle those messages.</p>
+<p>Typically you'll want to attach these message handlers in the <code>onReceiverCreated</code> and <code>onSenderCreated</code> callbacks.For example:</p>
+<pre class="prettyprint source lang-javascript"><code>var onReceiverCreated = function(receiver) {
+    receiver.onMessage('ping', onCastReceiverPingMessage);
+};
+
+var onSenderCreated = function(sender) {
+    sender.onMessage('pong', onCastSenderPongMessage);
+};</code></pre><p>Each message callback will be passed the message data. The message data <em>must</em> be a stron. If you need to pass complex data you 'll need to handle serialiazing and deserializing that data yourself.</p>
+<p>To send a message, simply use <code>Sender.sendMessage()</code> or <code>Receiver.sendMessage()</code>:</p>
+<pre class="prettyprint source"><code>sender.sendMessage('ping', 'Hello receiver');
+receiver.sendMessage('pong', 'I see you sender');</code></pre><p>See the <a href="http://apps.npr.org/newscast/examples/simple/">messaging example</a> to see this in action.</p>
+<h2>Separate sender and receiver pages</h2><p>Coming soon...</p>
 <h2>Development tasks</h2><p>Grunt configuration is included for running common development tasks.</p>
 <p>Javascript can be linted with <a href="http://jshint.com/">jshint</a>:</p>
 <pre class="prettyprint source"><code>grunt jshint</code></pre><p>Uniminified source can be regenerated with:</p>
@@ -72,7 +127,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta1</a> on Wed Jan 28 2015 09:48:18 GMT-0600 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta1</a> on Wed Jan 28 2015 11:02:47 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>
