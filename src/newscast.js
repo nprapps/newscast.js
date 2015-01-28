@@ -88,7 +88,7 @@
          * Register a new message handler callback.
          *
          * @memberof Newscast.Receiver
-         * @method onMessage
+         * @method #onMessage
          * @param {String} messageType Name of message type to listen for.
          * @param {Receiver~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
@@ -109,7 +109,7 @@
          * Send a message to the Sender.
          *
          * @memberof Newscast.Receiver
-         * @method sendMessage
+         * @method #sendMessage
          * @param {String} messageType Name of the message type to send.
          * @param {String} message Message data to send.
          */
@@ -239,7 +239,7 @@
          * browser plugin device selection dialog to open.
          *
          * @memberof Newscast.Sender
-         * @method startCasting
+         * @method #startCasting
          */
         var startCasting = function() {
             _log('Starting cast');
@@ -278,7 +278,7 @@
          * Stop casting an ongoing Chromecast session.
          *
          * @memberof Newscast.Sender
-         * @method stopCasting
+         * @method #stopCasting
          */
         var stopCasting = function() {
             _log('Stopping cast');
@@ -338,7 +338,7 @@
          * Register a new message handler callback.
          *
          * @memberof Newscast.Sender 
-         * @method onMessage
+         * @method #onMessage
          * @param {String} messageType Name of message type to listen for.
          * @param {Sender~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
@@ -359,7 +359,7 @@
          * Send a message to the Receiver.
          *
          * @memberof Newscast.Sender
-         * @method sendMessage
+         * @method #sendMessage
          * @param {String} messageType Name of the message type to send.
          * @param {String} message Message data to send.
          */
