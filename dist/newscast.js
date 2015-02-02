@@ -1,4 +1,4 @@
-/*! newscast.js - v0.1.0 - 2015-01-28 */
+/*! newscast.js - v0.1.0 - 2015-02-02 */
 /**
  * Newscast: simple Chromecast apps.
  *
@@ -88,8 +88,8 @@
         /**
          * Register a new message handler callback.
          *
-         * @memberof Receiver
-         * @method onMessage
+         * @memberof Newscast.Receiver
+         * @method #onMessage
          * @param {String} messageType Name of message type to listen for.
          * @param {Receiver~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
@@ -109,8 +109,8 @@
         /**
          * Send a message to the Sender.
          *
-         * @memberof Receiver
-         * @method sendMessage
+         * @memberof Newscast.Receiver
+         * @method #sendMessage
          * @param {String} messageType Name of the message type to send.
          * @param {String} message Message data to send.
          */
@@ -239,8 +239,8 @@
          * Request to start a Chromecasting session. Will cause the
          * browser plugin device selection dialog to open.
          *
-         * @memberof Sender
-         * @method startCasting
+         * @memberof Newscast.Sender
+         * @method #startCasting
          */
         var startCasting = function() {
             _log('Starting cast');
@@ -278,8 +278,8 @@
         /**
          * Stop casting an ongoing Chromecast session.
          *
-         * @memberof Sender
-         * @method stopCasting
+         * @memberof Newscast.Sender
+         * @method #stopCasting
          */
         var stopCasting = function() {
             _log('Stopping cast');
@@ -338,8 +338,8 @@
         /**
          * Register a new message handler callback.
          *
-         * @memberof Sender 
-         * @method onMessage
+         * @memberof Newscast.Sender 
+         * @method #onMessage
          * @param {String} messageType Name of message type to listen for.
          * @param {Sender~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
@@ -359,8 +359,8 @@
         /**
          * Send a message to the Receiver.
          *
-         * @memberof Sender
-         * @method sendMessage
+         * @memberof Newscast.Sender
+         * @method #sendMessage
          * @param {String} messageType Name of the message type to send.
          * @param {String} message Message data to send.
          */
@@ -421,8 +421,8 @@
      * @param {Object} config Configuration object
      * @param {String} config.namespace Chromecast namespace for this application.
      * @param {String} config.appId Chromecast application identifier.
-     * @param {Newscast~onSenderCreatedCallback} config.onSenderCreated Callback to be fired when a Sender instance is created.
-     * @param {Newscast~onReceiverCreatedCallback} config.onReceiverCreated Callback to be fired when a Receiver instance is created.
+     * @param {Newscast.Newscast~onSenderCreatedCallback} config.onSenderCreated Callback to be fired when a Sender instance is created.
+     * @param {Newscast.Newscast~onReceiverCreatedCallback} config.onReceiverCreated Callback to be fired when a Receiver instance is created.
      * @param {Sender~onSenderReadyCallback} config.onSenderReady Callback to be fired when a device is available to be cast to.
      * @param {Sender~onSenderStartedCallback} config.onSenderStarted Callback to be fired when casting has begun.
      * @param {Sender~onSenderStoppedCallback} config.onSenderStopped Callback to be fired when casting has ceased.
@@ -448,6 +448,16 @@
                 console.log(message);
             }
         };
+
+        /**
+         * @callback Newscast.Newscast~onSenderCreatedCallback
+         * @param {Sender} sender A Sender instance.
+         */
+
+        /**
+         * @callback Newscast.Newscast~onReceiverCreatedCallback
+         * @param {Receiver} receiver A Receiver instance.
+         */
 
         var script =  document.createElement('script');
         script.async = false;
@@ -485,16 +495,6 @@
             document.body.appendChild(script);
         }
     };
-
-    /**
-     * @callback Newscast~onSenderCreatedCallback
-     * @param {Sender} sender A Sender instance.
-     */
-
-    /**
-     * @callback Newscast~onReceiverCreatedCallback
-     * @param {Receiver} receiver A Receiver instance.
-     */
 
     return {
         'Receiver': Receiver,
