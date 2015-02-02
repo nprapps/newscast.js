@@ -13,7 +13,7 @@ Newscast is library to radically simplify Chromecast web app development.
 Newscast is optimized for a very simple use-case:
 
 * One sender device and one receiver device
-* A single-page that will function as both sender and receiver
+* A single page/URL that will function as both sender and receiver applications
 
 For this case, you only need the following code to create a Chromecast-ready Javascript app:
 
@@ -44,11 +44,11 @@ There are also five callbacks you will need to implement:
 * `onSenderStarted` is called when casting has begun. Here you should hide the "start casting" button and show a "stop casting" button.
 * `onSenderStopped` is called when casting has ended. Here you should hide the "stop casting" button and show a "start casting" button.
 
-When the user clicks the"start casting" button, call ``Sender.startCasting()`. To stop the cast, call `Sender.stopCasting()`.
+When the user clicks your "start casting" button, call ``Sender.startCasting()`. To stop the cast, call `Sender.stopCasting()`.
 
 That's it.
 
-See the [simple example](http://apps.npr.org/newscast/examples/simple/) to see this in action.
+See the [simple example](http://apps.npr.org/newscast/examples/simple/) for a working example.
 
 ## Registering your application
 
@@ -61,13 +61,13 @@ Use the following configuration when you register your app:
 * `URL`: "https://path.to.my/app.html?newscast-receiver=true"
 * `Sender Details / Chrome`: "https://pay.to.my/app.html"
 
-The `newscast-receiver=true` is part of the magic that makes Newscast work.
+The "newscast-receiver=true" is part of the magic that makes Newscast work with only a single page.
 
 **Note:** SSL (https://) is required for published applications, but you can test without it.
 
 ### Communicating between sender and receiver
 
-Probably the most interesting Chromecast feature is the ability to set up bi-directional communication between the sender and receiver. Newscast sets up this communication pipeline entirely automatically. All you need to do is register the types of messages you'll be sending and receiving and attach callbacks to handle those messages.
+Probably the most interesting Chromecast feature is the ability to establish bi-directional communication between the sender and receiver. Newscast sets up this communication pipeline entirely automatically. All you need to do is register the types of messages you'll be sending and receiving and attach callbacks to handle those messages.
 
 Typically you'll want to attach these message handlers in the `onReceiverCreated` and `onSenderCreated` callbacks.For example:
 
@@ -81,16 +81,19 @@ var onSenderCreated = function(sender) {
 };
 ```
 
-Each message callback will be passed the message data. The message data *must* be a stron. If you need to pass complex data you 'll need to handle serialiazing and deserializing that data yourself.
+Each message callback will be passed the message data. The message data *must* be a string. If you need to pass complex data you 'll need to handle serialiazing and deserializing that data yourself.
 
 To send a message, simply use `Sender.sendMessage()` or `Receiver.sendMessage()`:
 
 ```
 sender.sendMessage('ping', 'Hello receiver');
+```
+
+```
 receiver.sendMessage('pong', 'I see you sender');
 ```
 
-See the [messaging example](http://apps.npr.org/newscast/examples/simple/) to see this in action.
+See the [messaging example](http://apps.npr.org/newscast/examples/simple/) for a working example of bi-directional communication.
 
 ## Separate sender and receiver pages
 
