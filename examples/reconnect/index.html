@@ -15,17 +15,20 @@
     </style>
 </head>
 <body>
-    <h1>Newscast.js simple demo</h1>
+    <h1>Newscast.js reconnect demo</h1>
 
     <div id="sender-display">
         <p>I'm the sender!</p>
+        
+        <button id="ping-senders">Request ping from receiver</button>        
+        
         <ul id="sender-receipts"></ul>
     </div>
 
     <div id="receiver-display">
         <p>I'm the receiver!</p>
-        <button id="ping-senders">Ping all senders</button>        
-        <ul id="receiver-events">
+        
+        <ul id="receiver-receipts">
         </ul>
     </div>
 
@@ -39,10 +42,10 @@
 
     <script>
         var $senderDisplay = $('#sender-display');
-        var $senderReceipts = $('$sender-receipts');
-        var $receiverDisplay = $('#receiver-display');
-        var $receiverEvents = $('#receiver-events');
+        var $senderReceipts = $('#sender-receipts');
         var $pingSenders = $('#ping-senders');
+        var $receiverDisplay = $('#receiver-display');
+        var $receiverReceipts = $('#receiver-receipts');
         var $controls = $('#controls');
         var $castStart = $('#cast-start');
         var $castStop = $('#cast-stop');
@@ -51,7 +54,7 @@
         var castReceiver = null;
 
         $pingSenders.on('click', function() {
-            castReceiver.sendMessage('ping');
+            castSender.sendMessage('request-ping');
         });
 
         $castStart.on('click', function() {
@@ -69,19 +72,28 @@
         var onCastReceiverCreated = function(receiver) {
             castReceiver = receiver;
 
+            castReceiver.onMessage('request-ping', onCastReceiverRequestPing);
+
             $receiverDisplay.show(); 
         };
 
         var onCastReceiverAddSender = function() {
-            $receiverEvents.append('<li>Sender added.</li>');
+            $receiverReceipts.append('<li>Sender added.</li>');
         };
 
         var onCastReceiverLostSender = function() {
-            $receiverEvents.append('<li>Sender lost.</li>');
+            $receiverReceipts.append('<li>Sender lost.</li>');
         };       
+
+        var onCastReceiverRequestPing = function() {
+            $receiverReceipts.append('<li>Ping request.</li>');
+
+            castReceiver.sendMessage('ping');
+        }
 
         var onCastSenderCreated = function(sender) {
             castSender = sender;
+
             castSender.onMessage('ping', onCastSenderPing);
         };
 
@@ -106,8 +118,8 @@
         };
 
         new Newscast.Newscast({
-            'namespace': 'urn:x-cast:newscast.messaging',
-            'appId': 'B7C7AF2B',
+            'namespace': 'urn:x-cast:newscast.reconnect',
+            'appId': 'F25C40E5',
             'onReceiverCreated': onCastReceiverCreated,
             'onReceiverAddSender': onCastReceiverAddSender,
             'onReceiverLostSender': onCastReceiverLostSender,            

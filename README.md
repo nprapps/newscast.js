@@ -99,6 +99,10 @@ See the [messaging example](http://apps.npr.org/newscast/examples/simple/) for a
 
 Coming soon...
 
+## Gracefully reconnecting senders
+
+Coming soon...
+
 ## Development tasks
 
 Grunt configuration is included for running common development tasks.

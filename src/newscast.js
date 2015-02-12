@@ -28,8 +28,8 @@
      * @class Receiver
      * @param {Object} config Configuration object
      * @param {String} config.namespace Chromecast namespace for this application.
-     * @param {Receiver~onReceiverAddSenderCallback} config.onReceiverAddSender Callback to be fired when a new sender connects to the receiver.
-     * @param {Receiver~onReceiverLostSenderCallback} config.onReceiverLostSender Callback to be fired when an existing sender disconnects from the receiver.
+     * @param {Newscast.Receiver~onReceiverAddSenderCallback} config.onReceiverAddSender Callback to be fired when a new sender connects to the receiver.
+     * @param {Newscast.Receiver~onReceiverLostSenderCallback} config.onReceiverLostSender Callback to be fired when an existing sender disconnects from the receiver.
      * @param {Boolean} config.debug If true, debug information will be logged to the console.
      */
     var Receiver = function(config) {
@@ -54,35 +54,34 @@
         /*
          * Receiver ready.
          */
-        var _onCastReceiverReady = function(e) {            
-            _log('Got sender id: ' + e.data.launchingSenderId);
+        var _onCastReceiverReady = function() {
+            // TODO: throw an event
         };
 
         /*
          * New sender connected.
          */
-        var _onSenderConnected = function(e) {
+        var _onSenderConnected = function() {
             if (config['onReceiverAddSender']) {
                 config['onReceiverAddSender']();
             }
         };
 
         /**
-         * @callback Receiver~onReceiverAddSenderCallback
+         * @callback Newscast.Receiver~onReceiverAddSenderCallback
          */
 
         /*
          * Existing sender disconnected.
          */
-
-        var _onSenderDisconnected = function(e) {
+        var _onSenderDisconnected = function() {
             if (config['onReceiverLostSender']) {
                 config['onReceiverLostSender']();
             }
         };
 
         /**
-         * @callback Receiver~onReceiverLostSenderCallback
+         * @callback Newscast.Receiver~onReceiverLostSenderCallback
          */
 
         /*
@@ -116,7 +115,7 @@
          * @memberof Newscast.Receiver
          * @method #onMessage
          * @param {String} messageType Name of message type to listen for.
-         * @param {Receiver~onMessageCallback} callback The callback to invoke when the given message type is received.
+         * @param {Newscast.Receiver~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
         var onMessage = function(messageType, callback) {
             if (!(messageType in _messageHandlers)) {
@@ -127,7 +126,7 @@
         };
 
         /**
-         * @callback Parent~onMessageCallback
+         * @callback Newscast.Receiver~onMessageCallback
          * @param {String} message The message data.
          */
 
@@ -150,12 +149,13 @@
         _log('Initializing receiver');
 
         var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+
         _customMessageBus = castReceiverManager.getCastMessageBus(_config['namespace']);
+        _customMessageBus.onMessage = _onReceiveMessage;         
 
         castReceiverManager.onReady = _onCastReceiverReady;
         castReceiverManager.onSenderConnected = _onSenderConnected;
         castReceiverManager.onSenderDisconnected = _onSenderDisconnected;
-        _customMessageBus.onMessage = _onReceiveMessage;         
 
         castReceiverManager.start();
 
@@ -173,9 +173,9 @@
      * @param {Object} config Configuration object
      * @param {String} config.namespace Chromecast namespace for this application.
      * @param {String} config.appId Chromecast application identifier.
-     * @param {Sender~onSenderReadyCallback} config.onSenderReady Callback to be fired when a device is available to be cast to.
-     * @param {Sender~onSenderStartedCallback} config.onSenderStarted Callback to be fired when casting has begun.
-     * @param {Sender~onSenderStoppedCallback} config.onSenderStopped Callback to be fired when casting has ceased.
+     * @param {Newscast.Sender~onSenderReadyCallback} config.onSenderReady Callback to be fired when a device is available to be cast to.
+     * @param {Newscast.Sender~onSenderStartedCallback} config.onSenderStarted Callback to be fired when casting has begun.
+     * @param {Newscast.Sender~onSenderStoppedCallback} config.onSenderStopped Callback to be fired when casting has ceased.
      * @param {Boolean} config.debug If true, debug information will be logged to the console.
      */
     var Sender = function(config) {
@@ -201,10 +201,11 @@
          * Listen for existing sessions with the receiver.
          */
         var _sessionListener = function(session) {
-            _log('Session created');
+            _log('Session reconnected');
 
             _session = session;
             _session.addUpdateListener(_sessionUpdateListener);
+            _session.addMessageListener(_config['namespace'], _onReceiveMessage); 
 
             if (config['onSenderStarted']) {
                 config['onSenderStarted']();
@@ -241,7 +242,7 @@
         };
 
         /**
-         * @callback Sender~onSenderReadyCallback
+         * @callback Newscast.Sender~onSenderReadyCallback
          */
 
         /*
@@ -288,7 +289,7 @@
         };
 
         /**
-         * @callback Sender~onSenderStartedCallback
+         * @callback Newscast.Sender~onSenderStartedCallback
          */
 
         /*
@@ -323,7 +324,7 @@
         };
 
         /**
-         * @callback Sender~onSenderStoppedCallback
+         * @callback Newscast.Sender~onSenderStoppedCallback
          */
 
         /*
@@ -365,7 +366,7 @@
          * @memberof Newscast.Sender 
          * @method #onMessage
          * @param {String} messageType Name of message type to listen for.
-         * @param {Sender~onMessageCallback} callback The callback to invoke when the given message type is received.
+         * @param {Newscast.Sender~onMessageCallback} callback The callback to invoke when the given message type is received.
          */
         var onMessage = function(messageType, callback) {
             if (!(messageType in _messageHandlers)) {
@@ -376,7 +377,7 @@
         };
 
         /**
-         * @callback Sender~onMessageCallback
+         * @callback Newscast.Sender~onMessageCallback
          * @param {String} message The message data.
          */
 

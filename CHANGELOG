@@ -1,3 +1,9 @@
+0.1.1
+-----
+
+* Bind sender message handler on reconnect. (#4)
+* Support sender disconnect and reconnect.
+
 0.1.0
 -----
 
