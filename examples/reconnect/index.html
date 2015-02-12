@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>newscast.js</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <style>
+        body { background-color: white; margin: 40px; }
+        #sender-display { display: none; }
+        #receiver-display { display: none; }
+        #controls { display: none; }
+        #cast-stop { display: none; }
+    </style>
+</head>
+<body>
+    <h1>Newscast.js simple demo</h1>
+
+    <div id="sender-display">
+        <p>I'm the sender!</p>
+        <ul id="sender-receipts"></ul>
+    </div>
+
+    <div id="receiver-display">
+        <p>I'm the receiver!</p>
+        <button id="ping-senders">Ping all senders</button>        
+        <ul id="receiver-events">
+        </ul>
+    </div>
+
+    <div id="controls">
+        <button id="cast-start">Start casting</button>
+        <button id="cast-stop">Stop casting</button>
+    </div>
+
+    <script type="text/javascript" src="../../src/newscast.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script>
+        var $senderDisplay = $('#sender-display');
+        var $senderReceipts = $('$sender-receipts');
+        var $receiverDisplay = $('#receiver-display');
+        var $receiverEvents = $('#receiver-events');
+        var $pingSenders = $('#ping-senders');
+        var $controls = $('#controls');
+        var $castStart = $('#cast-start');
+        var $castStop = $('#cast-stop');
+
+        var castSender = null;
+        var castReceiver = null;
+
+        $pingSenders.on('click', function() {
+            castReceiver.sendMessage('ping');
+        });
+
+        $castStart.on('click', function() {
+            castSender.startCasting(); 
+
+            return false;
+        });
+
+        $castStop.on('click', function() {
+            castSender.stopCasting();
+
+            return false;
+        });
+
+        var onCastReceiverCreated = function(receiver) {
+            castReceiver = receiver;
+
+            $receiverDisplay.show(); 
+        };
+
+        var onCastReceiverAddSender = function() {
+            $receiverEvents.append('<li>Sender added.</li>');
+        };
+
+        var onCastReceiverLostSender = function() {
+            $receiverEvents.append('<li>Sender lost.</li>');
+        };       
+
+        var onCastSenderCreated = function(sender) {
+            castSender = sender;
+            castSender.onMessage('ping', onCastSenderPing);
+        };
+
+        var onCastSenderReady = function() {
+            $controls.show();
+        };
+
+        var onCastSenderStarted = function() {
+            $senderDisplay.show();
+            $castStart.hide();
+            $castStop.show();
+        };
+
+        var onCastSenderStopped = function() {
+            $senderDisplay.hide();
+            $castStart.show();
+            $castStop.hide();
+        };
+
+        var onCastSenderPing = function() {
+            $senderReceipts.append('<li>Receiver sent ping.</li>');
+        };
+
+        new Newscast.Newscast({
+            'namespace': 'urn:x-cast:newscast.messaging',
+            'appId': 'B7C7AF2B',
+            'onReceiverCreated': onCastReceiverCreated,
+            'onReceiverAddSender': onCastReceiverAddSender,
+            'onReceiverLostSender': onCastReceiverLostSender,            
+            'onSenderCreated': onCastSenderCreated,
+            'onSenderReady': onCastSenderReady,
+            'onSenderStarted': onCastSenderStarted,
+            'onSenderStopped': onCastSenderStopped,
+            'debug': true
+        });
+    </script>
+</body>
+</html>

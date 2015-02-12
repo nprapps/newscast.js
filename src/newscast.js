@@ -28,13 +28,14 @@
      * @class Receiver
      * @param {Object} config Configuration object
      * @param {String} config.namespace Chromecast namespace for this application.
+     * @param {Receiver~onReceiverAddSenderCallback} config.onReceiverAddSender Callback to be fired when a new sender connects to the receiver.
+     * @param {Receiver~onReceiverLostSenderCallback} config.onReceiverLostSender Callback to be fired when an existing sender disconnects from the receiver.
      * @param {Boolean} config.debug If true, debug information will be logged to the console.
      */
     var Receiver = function(config) {
         var _config = config;
 
         var _customMessageBus = null;
-        var _senderId = null;
         var _messageHandlers = {};
 
         /*
@@ -53,11 +54,36 @@
         /*
          * Receiver ready.
          */
-        var _onCastReceiverReady = function(e) {
-            _senderId = e.data.launchingSenderId;
-            
-            _log('Got sender id: ' + _senderId);
+        var _onCastReceiverReady = function(e) {            
+            _log('Got sender id: ' + e.data.launchingSenderId);
         };
+
+        /*
+         * New sender connected.
+         */
+        var _onSenderConnected = function(e) {
+            if (config['onReceiverAddSender']) {
+                config['onReceiverAddSender']();
+            }
+        };
+
+        /**
+         * @callback Receiver~onReceiverAddSenderCallback
+         */
+
+        /*
+         * Existing sender disconnected.
+         */
+
+        var _onSenderDisconnected = function(e) {
+            if (config['onReceiverLostSender']) {
+                config['onReceiverLostSender']();
+            }
+        };
+
+        /**
+         * @callback Receiver~onReceiverLostSenderCallback
+         */
 
         /*
          * New message received.
@@ -118,10 +144,7 @@
 
             _log('Sending message: ' + message);
             
-            _customMessageBus.send(
-                _senderId,
-                message
-            );
+            _customMessageBus.broadcast(message);
         };
 
         _log('Initializing receiver');
@@ -130,7 +153,9 @@
         _customMessageBus = castReceiverManager.getCastMessageBus(_config['namespace']);
 
         castReceiverManager.onReady = _onCastReceiverReady;
-        _customMessageBus.onMessage = _onReceiveMessage; 
+        castReceiverManager.onSenderConnected = _onSenderConnected;
+        castReceiverManager.onSenderDisconnected = _onSenderDisconnected;
+        _customMessageBus.onMessage = _onReceiveMessage;         
 
         castReceiverManager.start();
 
