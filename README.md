@@ -1,5 +1,7 @@
 ## Newscast.js
 
+[![npm](http://img.shields.io/npm/v/newscast.js.svg?style=flat)](https://badge.fury.io/js/newscast.js)
+
 Newscast is a library to radically simplify Chromecast web app development.
 
 * See a [simple example](http://apps.npr.org/newscast/examples/simple/). (You'll need a Chromecast, of course.)
