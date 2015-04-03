@@ -1,4 +1,4 @@
-## Newscast.js 
+## Newscast.js
 
 Newscast is a library to radically simplify Chromecast web app development.
 
@@ -7,6 +7,12 @@ Newscast is a library to radically simplify Chromecast web app development.
 * Visit the [Github repository](https://github.com/nprapps/newscast.js).
 * File an [bug report](https://github.com/nprapps/newscast.js/issues).
 * Read the [complete documentation](http://apps.npr.org/newscast/docs/).
+
+## Installation
+
+```sh
+$ npm install newscast.js
+```
 
 ## Creating a Newscast
 
@@ -136,4 +142,3 @@ The release process is documented [on the wiki](https://github.com/nprapps/newsc
 ## License
 
 Released under the MIT open source license. See `LICENSE` for details.
-
